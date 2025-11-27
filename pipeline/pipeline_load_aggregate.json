@@ -1,0 +1,208 @@
+{
+	"name": "pipeline_load_aggregate",
+	"properties": {
+		"activities": [
+			{
+				"name": "dataflow_empmaster",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "dataflow_empmaster",
+						"type": "DataFlowReference"
+					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "dataflow_titlemaster",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "dataflow_titlemaster",
+						"type": "DataFlowReference"
+					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "dataflow_payroll2020",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [
+					{
+						"activity": "dataflow_empmaster",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "dataflow_titlemaster",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "dataflow_agencymaster",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "dataflow_payroll2020",
+						"type": "DataFlowReference"
+					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "dataflow_payroll2021",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [
+					{
+						"activity": "dataflow_empmaster",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "dataflow_titlemaster",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "dataflow_agencymaster",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "dataflow_payroll2021",
+						"type": "DataFlowReference"
+					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "dataflow_summary",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [
+					{
+						"activity": "dataflow_payroll2020",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "dataflow_payroll2021",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "dataflow_summary",
+						"type": "DataFlowReference",
+						"parameters": {
+							"dataflow_param_fiscalyear": 2020
+						}
+					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "dataflow_agencymaster",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "dataflow_agencymaster",
+						"type": "DataFlowReference"
+					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "Fine"
+				}
+			}
+		],
+		"annotations": [],
+		"lastPublishTime": "2025-11-27T12:32:42Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

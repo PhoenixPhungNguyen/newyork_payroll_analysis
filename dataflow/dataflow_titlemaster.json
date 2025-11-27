@@ -1,0 +1,47 @@
+{
+	"name": "dataflow_titlemaster",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ds_adlsnycpayrollphungn_titlemaster",
+						"type": "DatasetReference"
+					},
+					"name": "adlsgen2titlemaster"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ds_adlsnycpayrollphungn_titlemaster",
+						"type": "DatasetReference"
+					},
+					"name": "sqldbtitlemaster"
+				}
+			],
+			"transformations": [],
+			"scriptLines": [
+				"source(output(",
+				"          TitleCode as string,",
+				"          TitleDescription as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> adlsgen2titlemaster",
+				"adlsgen2titlemaster sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          TitleCode as string,",
+				"          TitleDescription as string",
+				"     ),",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> sqldbtitlemaster"
+			]
+		}
+	}
+}

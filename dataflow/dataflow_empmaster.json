@@ -1,0 +1,49 @@
+{
+	"name": "dataflow_empmaster",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ds_adlsnycpayrollphungn_empmaster",
+						"type": "DatasetReference"
+					},
+					"name": "adlsgen2empmaster"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ds_adlsnycpayrollphungn_empmaster",
+						"type": "DatasetReference"
+					},
+					"name": "sqldbempmaster"
+				}
+			],
+			"transformations": [],
+			"scriptLines": [
+				"source(output(",
+				"          EmployeeID as string,",
+				"          LastName as string,",
+				"          FirstName as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> adlsgen2empmaster",
+				"adlsgen2empmaster sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          EmployeeID as string,",
+				"          LastName as string,",
+				"          FirstName as string",
+				"     ),",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> sqldbempmaster"
+			]
+		}
+	}
+}

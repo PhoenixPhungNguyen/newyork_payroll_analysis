@@ -1,0 +1,38 @@
+{
+	"name": "ds_adlsnycpayrollphungn_empmaster",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_adlsnycpayrollphungn_source",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "EmpMaster.csv",
+				"folderPath": "dirpayrollfiles",
+				"fileSystem": "adlsnycpayroll-phung-n"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "EmployeeID",
+				"type": "String"
+			},
+			{
+				"name": "LastName",
+				"type": "String"
+			},
+			{
+				"name": "FirstName",
+				"type": "String"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}
