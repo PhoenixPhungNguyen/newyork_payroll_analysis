@@ -1,5 +1,6 @@
 # NewYork Payroll Analysis
-Designed and implemented automated, scalable data pipelines for analyzing New York City payroll data. The pipelines are built with a focus on data quality, reliability, and monitoring to support accurate financial analysis and effective management of public resources.
+This project focuses on building automated and well-monitored data pipelines to process and analyze New York City payroll data. The goal is to ensure high data quality, reliable workflows, and efficient analysis that supports transparency and informed decision-making around the City’s financial resources.
+
 ## Architecture
 
 <p align="center">
